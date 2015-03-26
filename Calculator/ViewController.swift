@@ -96,5 +96,9 @@ class ViewController: UIViewController
         }
     }
     
+    @IBAction func clearCalculator() {
+        
+    }
+    
 }
 
