@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController
 {
     @IBOutlet weak var display: UILabel!
+    @IBOutlet weak var history: UILabel!
     
     var userIsInTheMiddleOfTypingANumber = false
     var userHasEnteredDecimalPoint = false
@@ -41,6 +42,8 @@ class ViewController: UIViewController
             enter()
         }
         
+        history.text = history.text! + " " + operation + " = "
+        
         switch operation {
         case "×": performOperation { $0 * $1 }
         case "÷": performOperation { $1 / $0 }
@@ -52,6 +55,8 @@ class ViewController: UIViewController
         case "π": performOperation { M_PI }
         default: break
         }
+        
+        
     }
     
     func performOperation(operation: (Double, Double) -> Double) {
@@ -79,6 +84,7 @@ class ViewController: UIViewController
         operandStack.append(displayValue)
         println("operand stack = \(operandStack)")
         
+        history.text = history.text! + " \(displayValue)"
     }
     
     //computed property
@@ -90,7 +96,7 @@ class ViewController: UIViewController
         set {
             display.text = "\(newValue)"
             
-            //since enter was called after performOperation anyways, move here
+            //since enter was always called after performOperation anyways, move here
             enter()
         }
     }
@@ -105,6 +111,7 @@ class ViewController: UIViewController
         
         //reset display text back to original
         display.text = "0"
+        history.text = ""
     }
     
 }
