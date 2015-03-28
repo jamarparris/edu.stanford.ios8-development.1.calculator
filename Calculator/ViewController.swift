@@ -57,7 +57,6 @@ class ViewController: UIViewController
     func performOperation(operation: (Double, Double) -> Double) {
         if operandStack.count >= 2 {
             displayValue = operation(operandStack.removeLast(), operandStack.removeLast())
-            enter()
         }
     }
     
@@ -65,13 +64,11 @@ class ViewController: UIViewController
     func performOperation(operation: (Double) -> Double) {
         if operandStack.count >= 1 {
             displayValue = operation(operandStack.removeLast())
-            enter()
         }
     }
     
     func performOperation(operation: () -> Double) {
         displayValue = operation()
-        enter()
     }
     
     var operandStack = Array<Double>()
@@ -92,12 +89,22 @@ class ViewController: UIViewController
         
         set {
             display.text = "\(newValue)"
-            userIsInTheMiddleOfTypingANumber = false
+            
+            //since enter was called after performOperation anyways, move here
+            enter()
         }
     }
     
     @IBAction func clearCalculator() {
+        // enter resets all the flags, so reuse here
+        enter()
         
+        //empty the array
+        operandStack.removeAll()
+        println("operand stack = \(operandStack)")
+        
+        //reset display text back to original
+        display.text = "0"
     }
     
 }
