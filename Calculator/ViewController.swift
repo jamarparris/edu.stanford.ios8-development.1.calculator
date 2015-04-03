@@ -14,7 +14,6 @@ class ViewController: UIViewController
     @IBOutlet weak var history: UILabel!
     
     var userIsInTheMiddleOfTypingANumber = false
-    var userHasEnteredDecimalPoint = false
     
     @IBAction func appendDigit(sender: UIButton) {
         let digit = sender.currentTitle!
@@ -29,10 +28,27 @@ class ViewController: UIViewController
     
     @IBAction func appendDecimal(sender: UIButton) {
         
-        if !userHasEnteredDecimalPoint {
-            self.appendDigit(sender)
-            userHasEnteredDecimalPoint = true
+        if display.text!.rangeOfString(".") != nil {
+            return
         }
+        
+        self.appendDigit(sender)
+
+    }
+    
+    @IBAction func removeDigit() {
+        
+        let length = countElements(display.text!)
+        
+        if  length < 2 {
+            display.text = "0"
+            userIsInTheMiddleOfTypingANumber = false
+            return
+        }
+        
+        let currentText = display.text!
+        
+        display.text = currentText.substringToIndex(advance(currentText.startIndex, length - 1))
     }
     
     @IBAction func operate(sender: UIButton) {
@@ -80,7 +96,6 @@ class ViewController: UIViewController
 
     @IBAction func enter() {
         userIsInTheMiddleOfTypingANumber = false
-        userHasEnteredDecimalPoint = false
         operandStack.append(displayValue)
         println("operand stack = \(operandStack)")
         
