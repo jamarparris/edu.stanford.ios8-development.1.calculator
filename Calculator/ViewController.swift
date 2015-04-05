@@ -14,6 +14,7 @@ class ViewController: UIViewController
     @IBOutlet weak var history: UILabel!
     
     var userIsInTheMiddleOfTypingANumber = false
+    var brain = CalculatorBrain()
     
     @IBAction func appendDigit(sender: UIButton) {
         let digit = sender.currentTitle!
@@ -37,7 +38,6 @@ class ViewController: UIViewController
     }
     
     @IBAction func removeDigit() {
-        
         let length = countElements(display.text!)
         
         if  length < 2 {
@@ -52,67 +52,45 @@ class ViewController: UIViewController
     }
     
     @IBAction func operate(sender: UIButton) {
-        let operation = sender.currentTitle!
-        
         if userIsInTheMiddleOfTypingANumber {
             enter()
         }
         
-        history.text = history.text! + " " + operation + " = "
-        
-        switch operation {
-        case "×": performOperation { $0 * $1 }
-        case "÷": performOperation { $1 / $0 }
-        case "+": performOperation { $0 + $1 }
-        case "−": performOperation { $1 - $0 }
-        case "√": performOperation { sqrt($0) }
-        case "sin": performOperation { sin($0) }
-        case "cos": performOperation { cos($0) }
-        case "π": performOperation { M_PI }
-        default: break
+        if let operation = sender.currentTitle {
+            
+            history.text = history.text! + " " + operation + " = "
+            
+            if let result = brain.performOperation(operation) {
+                displayValue = result
+            } else {
+                displayValue = 0
+            }
         }
-        
-        
+    
     }
     
-    func performOperation(operation: (Double, Double) -> Double) {
-        if operandStack.count >= 2 {
-            displayValue = operation(operandStack.removeLast(), operandStack.removeLast())
-        }
-    }
-    
-    //sqrt only takes one argument
-    func performOperation(operation: (Double) -> Double) {
-        if operandStack.count >= 1 {
-            displayValue = operation(operandStack.removeLast())
-        }
-    }
-    
-    func performOperation(operation: () -> Double) {
-        displayValue = operation()
-    }
-    
-    var operandStack = Array<Double>()
-
     @IBAction func enter() {
         userIsInTheMiddleOfTypingANumber = false
-        operandStack.append(displayValue)
-        println("operand stack = \(operandStack)")
         
-        history.text = history.text! + " \(displayValue)"
+        if let result = brain.pushOperand(displayValue) {
+            displayValue = result
+            history.text = history.text! + " \(displayValue)"
+        } else {
+            displayValue = 0
+        }
+        
     }
     
     //computed property
     var displayValue: Double {
+        // in assignment2, need to make this optional and change displayValue = 0 to nil)
         get {
+            println(display.text)
             return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
         }
         
         set {
             display.text = "\(newValue)"
-            
-            //since enter was always called after performOperation anyways, move here
-            enter()
         }
     }
     
@@ -120,9 +98,8 @@ class ViewController: UIViewController
         // enter resets all the flags, so reuse here
         enter()
         
-        //empty the array
-        operandStack.removeAll()
-        println("operand stack = \(operandStack)")
+        //reset calculatorBrain
+        brain = CalculatorBrain()
         
         //reset display text back to original
         display.text = "0"
