@@ -63,7 +63,7 @@ class ViewController: UIViewController
             if let result = brain.performOperation(operation) {
                 displayValue = result
             } else {
-                displayValue = 0
+                displayValue = nil
             }
         }
     
@@ -72,25 +72,34 @@ class ViewController: UIViewController
     @IBAction func enter() {
         userIsInTheMiddleOfTypingANumber = false
         
-        if let result = brain.pushOperand(displayValue) {
-            displayValue = result
-            history.text = history.text! + " \(displayValue)"
-        } else {
-            displayValue = 0
+        if displayValue != nil {
+            if let result = brain.pushOperand(displayValue!) {
+                displayValue = result
+                history.text = history.text! + " \(displayValue!)"
+                return
+            }
         }
-        
+
+        displayValue = nil
     }
     
     //computed property
-    var displayValue: Double {
+    var displayValue: Double? {
         // in assignment2, need to make this optional and change displayValue = 0 to nil)
         get {
-            println(display.text)
-            return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
+            if display.text != nil {
+                return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
+            }
+            
+            return nil
         }
         
         set {
-            display.text = "\(newValue)"
+            if newValue != nil {
+                display.text = "\(newValue!)"
+            } else {
+                display.text = nil
+            }
         }
     }
     
