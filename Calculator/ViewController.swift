@@ -58,9 +58,8 @@ class ViewController: UIViewController
         
         if let operation = sender.currentTitle {
             
-            history.text = history.text! + " " + operation + " = "
-            
             if let result = brain.performOperation(operation) {
+                history.text = brain.description + " = "
                 displayValue = result
             } else {
                 displayValue = nil
@@ -75,7 +74,6 @@ class ViewController: UIViewController
         if displayValue != nil {
             if let result = brain.pushOperand(displayValue!) {
                 displayValue = result
-                history.text = history.text! + " \(displayValue!)"
                 return
             }
         }
