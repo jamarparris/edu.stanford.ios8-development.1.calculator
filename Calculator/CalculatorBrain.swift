@@ -56,18 +56,22 @@ class CalculatorBrain
     
     var description: String {
         get {
-            let (desc, _) = evaluateDescription(opStack)
-            if desc != nil {
+           let (desc, _) = evaluateDescription(opStack)
+           if desc != nil {
                 println("brain description: \(desc!)")
                 return desc!
+            } else {
+                println("description is nil")
             }
             
-            return ""
+            return " "
         }
     }
     
     private func evaluateDescription(ops: [Op]) -> (resultString: String?, remainingOps: [Op]) {
+        
         println("remaining ops \(ops)")
+        
         if !ops.isEmpty {
             var remainingOps = ops
             let op = remainingOps.removeLast()
@@ -96,13 +100,18 @@ class CalculatorBrain
             }
         }
         
-        return (nil, ops)
+        return ("?", ops)
     }
     
     func evaluate() -> Double? {
         let (result, remainder) = evaluate(opStack)
-        println("\(opStack) = \(result!) with \(remainder) left over")
-        //could also do let (result, _) = evaluate(opStack)
+        
+        if result != nil {
+            println("\(opStack) = \(result!) with \(remainder) left over")
+            //could also do let (result, _) = evaluate(opStack)
+        } else {
+            println("result is nil")
+        }
         return result
     }
     

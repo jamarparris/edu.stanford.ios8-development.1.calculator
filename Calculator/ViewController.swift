@@ -38,7 +38,7 @@ class ViewController: UIViewController
     }
     
     @IBAction func removeDigit() {
-        let length = countElements(display.text!)
+        let length = count(display.text!)
         
         if  length < 2 {
             display.text = "0"
@@ -59,11 +59,12 @@ class ViewController: UIViewController
         if let operation = sender.currentTitle {
             
             if let result = brain.performOperation(operation) {
-                history.text = brain.description + " = "
                 displayValue = result
             } else {
                 displayValue = nil
             }
+            
+            history.text = brain.description + " = "
         }
     
     }
@@ -83,10 +84,11 @@ class ViewController: UIViewController
     
     //computed property
     var displayValue: Double? {
-        // in assignment2, need to make this optional and change displayValue = 0 to nil)
         get {
-            if display.text != nil {
-                return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
+            //as display.text can now contain ERR string, check to see if it's numberFromString returns nil
+           if display.text != nil, let value = NSNumberFormatter().numberFromString(display.text!) {
+            
+                    return value.doubleValue
             }
             
             return nil
@@ -96,7 +98,7 @@ class ViewController: UIViewController
             if newValue != nil {
                 display.text = "\(newValue!)"
             } else {
-                display.text = nil
+                display.text = "ERR"
             }
         }
     }
@@ -110,7 +112,7 @@ class ViewController: UIViewController
         
         //reset display text back to original
         display.text = "0"
-        history.text = ""
+        history.text = " "
     }
     
 }
