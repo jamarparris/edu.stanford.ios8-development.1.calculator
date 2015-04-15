@@ -15,7 +15,8 @@ class CalculatorBrain
         case Operand(Double)
         case UnaryOperation(String, Double -> Double)
         case BinaryOperation(String, (Double, Double) -> Double)
-        case ConstantOperand(String, () -> Double)
+        case ConstantOperand(String, Double)
+        case VariableOperand(String)
         
         var description: String {
             get {
@@ -28,15 +29,18 @@ class CalculatorBrain
                     return symbol
                 case .ConstantOperand(let constant, _):
                     return constant
+                case .VariableOperand(let variable):
+                    return variable
                 }
-                
             }
         }
     }
     
     private var opStack = [Op]()
     private var knownOps = [String: Op]()
+    private let constantValues = ["π": M_PI]
     var variableValues = [String: Double]()
+   
     
     init() {
         
@@ -51,7 +55,10 @@ class CalculatorBrain
         learnOp(Op.UnaryOperation("√", sqrt))
         learnOp(Op.UnaryOperation("sin", sin))
         learnOp(Op.UnaryOperation("cos", cos))
-        learnOp(Op.ConstantOperand("π") { M_PI })
+        
+        for (let constantString, constantValue) in constantValues {
+            learnOp(Op.ConstantOperand(constantString, constantValue))
+        }
     }
     
     var description: String {
@@ -103,9 +110,12 @@ class CalculatorBrain
                         return (result, op2Evaluation.remainingOps)
                     }
                 }
-            case .ConstantOperand(let operandString, _):
-                return (operandString, remainingOps)
+            case .ConstantOperand(let constantString, _):
+                return (constantString, remainingOps)
+            case .VariableOperand(let variableString):
+                return (variableString, remainingOps)
             }
+            
         }
         
         return ("?", ops)
@@ -146,8 +156,10 @@ class CalculatorBrain
                         return (operation(operand1, operand2), op2Evaluation.remainingOps)
                     }
                 }
-            case .ConstantOperand(_, let operation):
-                return (operation(), remainingOps)
+            case .ConstantOperand(_, let operand):
+                return (operand, remainingOps)
+            case .VariableOperand(let variableString):
+                return (variableValues[variableString], remainingOps)
             }
             
             
@@ -170,10 +182,7 @@ class CalculatorBrain
     }
     
     func pushOperand(symbol: String) -> Double? {
-        if let operand = variableValues[symbol] {
-            opStack.append(Op.Operand(operand))
-        }
-        
+        opStack.append(Op.VariableOperand(symbol))
         return evaluate()
     }
 }

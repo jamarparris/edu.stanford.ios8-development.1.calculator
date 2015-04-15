@@ -17,13 +17,14 @@ class ViewController: UIViewController
     var brain = CalculatorBrain()
     
     @IBAction func appendDigit(sender: UIButton) {
-        let digit = sender.currentTitle!
+        if let digit = sender.currentTitle {
         
-        if userIsInTheMiddleOfTypingANumber {
-            display.text = display.text! + digit
-        } else {
-            display.text = digit
-            userIsInTheMiddleOfTypingANumber = true
+            if userIsInTheMiddleOfTypingANumber {
+                display.text = display.text! + digit
+            } else {
+                display.text = digit
+                userIsInTheMiddleOfTypingANumber = true
+            }
         }
     }
     
