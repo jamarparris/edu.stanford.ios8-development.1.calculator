@@ -56,21 +56,24 @@ class CalculatorBrain
     
     var description: String {
         get {
-           let (desc, _) = evaluateDescription(opStack)
-           if desc != nil {
-                println("brain description: \(desc!)")
-                return desc!
-            } else {
-                println("description is nil")
+            
+            var descriptions = [String]()
+            var remainingOps = opStack
+            
+            while (!remainingOps.isEmpty) {
+                let (desc, leftOverOps) = evaluateDescription(remainingOps)
+                //assign leftOverOps to remainingOps so isEmpty check is up to date
+                remainingOps = leftOverOps
+                descriptions.append(desc!)
             }
             
-            return " "
+            return ", ".join(reverse(descriptions))
         }
     }
     
     private func evaluateDescription(ops: [Op]) -> (resultString: String?, remainingOps: [Op]) {
         
-        println("remaining ops \(ops)")
+        //println("remaining ops \(ops)")
         
         if !ops.isEmpty {
             var remainingOps = ops
@@ -83,7 +86,7 @@ class CalculatorBrain
             case .UnaryOperation(let operationString, _):
                 let operandEvaluation = evaluateDescription(remainingOps)
                 if let operandString = operandEvaluation.resultString {
-                    println("\(operationString)(\(operandString))")
+                    // println("\(operationString)(\(operandString))")
                     return ("\(operationString)(\(operandString))", operandEvaluation.remainingOps)
                 }
             case .BinaryOperation(let operationString, _):
@@ -91,7 +94,12 @@ class CalculatorBrain
                 if let operand1String = op1Evaluation.resultString {
                     let op2Evaluation = evaluateDescription(op1Evaluation.remainingOps)
                     if let operand2String = op2Evaluation.resultString {
-                        let result = "\(operand2String) \(operationString) \(operand1String)"
+                        var result = "\(operand2String) \(operationString) \(operand1String)"
+                        
+                        if !op2Evaluation.remainingOps.isEmpty {
+                            result = "(\(result))"
+                        }
+                        
                         return (result, op2Evaluation.remainingOps)
                     }
                 }
