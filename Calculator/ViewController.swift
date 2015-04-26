@@ -52,6 +52,33 @@ class ViewController: UIViewController
         display.text = currentText.substringToIndex(advance(currentText.startIndex, length - 1))
     }
     
+    @IBAction func setVariable(sender: UIButton) {
+        if var symbol = sender.currentTitle {
+            symbol.removeAtIndex(symbol.startIndex)
+            brain.variableValues[symbol] = displayValue
+            userIsInTheMiddleOfTypingANumber = false
+            
+            if let result = brain.evaluate() {
+                displayValue = result
+            }
+        }
+    }
+    
+    @IBAction func getVariable(sender: UIButton) {
+        
+        if userIsInTheMiddleOfTypingANumber {
+            enter()
+        }
+        
+        if let symbol = sender.currentTitle {
+            if let result = brain.pushOperand(symbol) {
+                displayValue = result
+            } else {
+                displayValue = nil
+            }
+        }
+    }
+    
     @IBAction func operate(sender: UIButton) {
         if userIsInTheMiddleOfTypingANumber {
             enter()
@@ -65,8 +92,9 @@ class ViewController: UIViewController
                 displayValue = nil
             }
             
-            history.text = brain.description + " = "
         }
+        
+        history.text = brain.description + " = "
     
     }
     
@@ -99,7 +127,7 @@ class ViewController: UIViewController
             if newValue != nil {
                 display.text = "\(newValue!)"
             } else {
-                display.text = "ERR"
+                display.text = " "
             }
         }
     }
