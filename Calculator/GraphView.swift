@@ -33,10 +33,45 @@ class GraphView: UIView {
     
     override func drawRect(rect: CGRect) {
         
-        let axesOrigin = origin ?? convertPoint(center, fromView: superview)
+        origin = origin ?? convertPoint(center, fromView: superview)
         
         axesDrawer.contentScaleFactor = contentScaleFactor
-        axesDrawer.drawAxesInRect(bounds, origin: axesOrigin, pointsPerUnit: scale)
+        axesDrawer.drawAxesInRect(bounds, origin: origin!, pointsPerUnit: scale)
+    }
+    
+    func pinch(gesture: UIPinchGestureRecognizer) {
+        switch gesture.state {
+        case .Changed:
+            scale *= gesture.scale
+            
+            //reset to 1 to make it incremental
+            gesture.scale = 1
+        default:break
+        }
+    }
+    
+    func pan(gesture: UIPanGestureRecognizer) {
+        switch gesture.state {
+        case .Ended: fallthrough //just use the one right below
+        case .Changed:
+            let translation = gesture.translationInView(self)
+            let x = origin!.x + translation.x
+            let y = origin!.y + translation.y
+            
+            origin = CGPoint(x: x, y: y)
+            
+            //reset to zero so that it's incremental
+            gesture.setTranslation(CGPointZero, inView: self)
+        default: break
+        }
     }
 
+    func doubletap(gesture: UITapGestureRecognizer) {
+        switch gesture.state {
+        case .Ended:
+            //change origin to the place user double tapped
+            origin = gesture.locationInView(self)
+        default: break
+        }
+    }
 }
