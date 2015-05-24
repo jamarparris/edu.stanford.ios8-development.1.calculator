@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		285C267C1B10B575006CDE07 /* AxesDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285C267B1B10B575006CDE07 /* AxesDrawer.swift */; };
 		285C26821B10C601006CDE07 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285C26811B10C601006CDE07 /* GraphViewController.swift */; };
+		285C26861B10C73A006CDE07 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285C26851B10C73A006CDE07 /* GraphView.swift */; };
 		285FFA691AD0809100689136 /* CalculatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285FFA681AD0809100689136 /* CalculatorBrain.swift */; };
 		287D8A221AACADB500155F6D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287D8A211AACADB500155F6D /* AppDelegate.swift */; };
 		287D8A241AACADB500155F6D /* CalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287D8A231AACADB500155F6D /* CalculatorViewController.swift */; };
@@ -31,6 +32,7 @@
 /* Begin PBXFileReference section */
 		285C267B1B10B575006CDE07 /* AxesDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AxesDrawer.swift; sourceTree = "<group>"; };
 		285C26811B10C601006CDE07 /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
+		285C26851B10C73A006CDE07 /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		285FFA681AD0809100689136 /* CalculatorBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculatorBrain.swift; sourceTree = "<group>"; };
 		287D8A1C1AACADB500155F6D /* Calculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		287D8A201AACADB500155F6D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				287D8A231AACADB500155F6D /* CalculatorViewController.swift */,
 				285C26811B10C601006CDE07 /* GraphViewController.swift */,
 				287D8A251AACADB500155F6D /* Main.storyboard */,
+				285C26851B10C73A006CDE07 /* GraphView.swift */,
 				287D8A1F1AACADB500155F6D /* Supporting Files */,
 			);
 			path = Calculator;
@@ -226,6 +229,7 @@
 				285C267C1B10B575006CDE07 /* AxesDrawer.swift in Sources */,
 				287D8A241AACADB500155F6D /* CalculatorViewController.swift in Sources */,
 				287D8A221AACADB500155F6D /* AppDelegate.swift in Sources */,
+				285C26861B10C73A006CDE07 /* GraphView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,16 +13,19 @@
                         <viewControllerLayoutGuide type="top" id="ekh-Jy-c3R"/>
                         <viewControllerLayoutGuide type="bottom" id="Ine-Rv-BnF"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="TgK-YM-kir">
+                    <view key="view" contentMode="redraw" id="TgK-YM-kir" customClass="GraphView" customModule="Calculator" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="shi-8E-ghJ"/>
+                    <connections>
+                        <outlet property="graphView" destination="TgK-YM-kir" id="wYM-cs-LTY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BeM-cb-oKo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="290" y="467"/>
+            <point key="canvasLocation" x="402" y="542"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="y5f-L4-Nqo">

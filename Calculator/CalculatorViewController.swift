@@ -13,8 +13,8 @@ class CalculatorViewController: UIViewController
     @IBOutlet weak var display: UILabel!
     @IBOutlet weak var history: UILabel!
     
-    var userIsInTheMiddleOfTypingANumber = false
-    var brain = CalculatorBrain()
+    private var userIsInTheMiddleOfTypingANumber = false
+    private var brain = CalculatorBrain()
     
     @IBAction func appendDigit(sender: UIButton) {
         if let digit = sender.currentTitle {
@@ -115,9 +115,8 @@ class CalculatorViewController: UIViewController
     var displayValue: Double? {
         get {
             //as display.text can now contain ERR string, check to see if it's numberFromString returns nil
-           if display.text != nil, let value = NSNumberFormatter().numberFromString(display.text!) {
-            
-                    return value.doubleValue
+            if display.text != nil, let value = NSNumberFormatter().numberFromString(display.text!) {
+                return value.doubleValue
             }
             
             return nil
