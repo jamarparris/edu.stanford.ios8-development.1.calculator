@@ -44,6 +44,7 @@
         <scene sceneID="y5f-L4-Nqo">
             <objects>
                 <navigationController id="nkH-df-8FB" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="H9t-ue-QJO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -54,7 +55,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4TZ-pW-t2N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-768" y="-204"/>
+            <point key="canvasLocation" x="-648" y="-384"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="Jdp-k3-ERn">
@@ -69,7 +70,7 @@
             </objects>
             <point key="canvasLocation" x="-1482" y="5"/>
         </scene>
-        <!--Calculator View Controller-->
+        <!--Calculator-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="CalculatorViewController" customModule="Calculator" customModuleProvider="target" sceneMemberID="viewController">
@@ -473,10 +474,10 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" id="8Ps-NH-ddr">
+                    <navigationItem key="navigationItem" title="Calculator" id="8Ps-NH-ddr">
                         <barButtonItem key="rightBarButtonItem" title="📈" id="zz1-JZ-oro">
                             <connections>
-                                <segue destination="HeT-Yu-zTt" kind="showDetail" id="zxE-lO-ybs"/>
+                                <segue destination="HeT-Yu-zTt" kind="showDetail" identifier="showGraph" id="zxE-lO-ybs"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -493,6 +494,7 @@
         <scene sceneID="zYS-D7-AZ4">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HeT-Yu-zTt" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="YWk-3m-eCL">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

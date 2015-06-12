@@ -143,5 +143,32 @@ class CalculatorViewController: UIViewController
         history.text = " "
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        //println("\(segue.identifier) called")
+    
+        var destinationController = segue.destinationViewController as? UIViewController
+        
+        //account for controllers embedded in a UINavigationController
+        if let navController = destinationController as? UINavigationController {
+            destinationController = navController.visibleViewController
+        }
+        
+        //ensure it's a graphViewController
+        if let graphViewController = destinationController as? GraphViewController {
+            
+            //ensure identifier is set
+            if let identifier = segue.identifier {
+                
+                ////set program variable on the graphViewController
+                switch identifier {
+                case "showGraph": graphViewController.program = brain.program
+                default: break
+                }
+            }
+        }
+    
+    }
+    
 }
 
