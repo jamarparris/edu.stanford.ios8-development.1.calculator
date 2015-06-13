@@ -58,9 +58,8 @@ class CalculatorViewController: UIViewController
             brain.variableValues[symbol] = displayValue
             userIsInTheMiddleOfTypingANumber = false
             
-            if let result = brain.evaluate() {
-                displayValue = result
-            }
+            let result = brain.evaluate()
+            updateDisplayWithResult(result)
         }
     }
     
@@ -71,11 +70,8 @@ class CalculatorViewController: UIViewController
         }
         
         if let symbol = sender.currentTitle {
-            if let result = brain.pushOperand(symbol) {
-                displayValue = result
-            } else {
-                displayValue = nil
-            }
+            let result = brain.pushOperand(symbol)
+            updateDisplayWithResult(result)
         }
     }
     
@@ -86,29 +82,18 @@ class CalculatorViewController: UIViewController
         
         if let operation = sender.currentTitle {
             
-            if let result = brain.performOperation(operation) {
-                displayValue = result
-            } else {
-                displayValue = nil
-            }
-            
+            let result = brain.performOperation(operation)
+            updateDisplayWithResult(result)
         }
-        
-        history.text = brain.description + " = "
-    
     }
     
     @IBAction func enter() {
         userIsInTheMiddleOfTypingANumber = false
         
         if displayValue != nil {
-            if let result = brain.pushOperand(displayValue!) {
-                displayValue = result
-                return
-            }
+            let result = brain.pushOperand(displayValue!)
+            updateDisplayWithResult(result)
         }
-
-        displayValue = nil
     }
     
     //computed property
@@ -129,6 +114,17 @@ class CalculatorViewController: UIViewController
                 display.text = " "
             }
         }
+    }
+    
+    private func updateDisplayWithResult(result: Double?) {
+        
+        if let value = result {
+            displayValue = value
+        } else {
+            displayValue = nil
+        }
+        
+        history.text = brain.description + " = "
     }
     
     @IBAction func clearCalculator() {
