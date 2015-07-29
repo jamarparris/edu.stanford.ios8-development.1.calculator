@@ -8,6 +8,8 @@
 
 import Foundation
 
+typealias PropertyList = AnyObject
+
 class CalculatorBrain
 {
     private enum Op : Printable //protocol, used for description that returns string representation
@@ -61,8 +63,6 @@ class CalculatorBrain
         }
     }
     
-    typealias PropertyList = AnyObject
-    
     var program: PropertyList { //guaranteed to be a PropertyList
         get {
             return opStack.map { $0.description }
@@ -75,6 +75,8 @@ class CalculatorBrain
                         newOpStack.append(op)
                     } else if let operand = NSNumberFormatter().numberFromString(opSymbol)?.doubleValue {
                         newOpStack.append(.Operand(operand))
+                    } else {
+                        newOpStack.append(.VariableOperand(opSymbol))
                     }
                 }
                 

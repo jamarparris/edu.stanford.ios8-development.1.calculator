@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  CalculatorViewController.swift
 //  Calculator
 //
 //  Created by Jamar Parris on 3/8/15.
@@ -8,13 +8,13 @@
 
 import UIKit
 
-class ViewController: UIViewController
+class CalculatorViewController: UIViewController
 {
     @IBOutlet weak var display: UILabel!
     @IBOutlet weak var history: UILabel!
     
-    var userIsInTheMiddleOfTypingANumber = false
-    var brain = CalculatorBrain()
+    private var userIsInTheMiddleOfTypingANumber = false
+    private var brain = CalculatorBrain()
     
     @IBAction func appendDigit(sender: UIButton) {
         if let digit = sender.currentTitle {
@@ -58,9 +58,8 @@ class ViewController: UIViewController
             brain.variableValues[symbol] = displayValue
             userIsInTheMiddleOfTypingANumber = false
             
-            if let result = brain.evaluate() {
-                displayValue = result
-            }
+            let result = brain.evaluate()
+            updateDisplayWithResult(result)
         }
     }
     
@@ -71,11 +70,8 @@ class ViewController: UIViewController
         }
         
         if let symbol = sender.currentTitle {
-            if let result = brain.pushOperand(symbol) {
-                displayValue = result
-            } else {
-                displayValue = nil
-            }
+            let result = brain.pushOperand(symbol)
+            updateDisplayWithResult(result)
         }
     }
     
@@ -86,38 +82,26 @@ class ViewController: UIViewController
         
         if let operation = sender.currentTitle {
             
-            if let result = brain.performOperation(operation) {
-                displayValue = result
-            } else {
-                displayValue = nil
-            }
-            
+            let result = brain.performOperation(operation)
+            updateDisplayWithResult(result)
         }
-        
-        history.text = brain.description + " = "
-    
     }
     
     @IBAction func enter() {
         userIsInTheMiddleOfTypingANumber = false
         
         if displayValue != nil {
-            if let result = brain.pushOperand(displayValue!) {
-                displayValue = result
-                return
-            }
+            let result = brain.pushOperand(displayValue!)
+            updateDisplayWithResult(result)
         }
-
-        displayValue = nil
     }
     
     //computed property
     var displayValue: Double? {
         get {
             //as display.text can now contain ERR string, check to see if it's numberFromString returns nil
-           if display.text != nil, let value = NSNumberFormatter().numberFromString(display.text!) {
-            
-                    return value.doubleValue
+            if display.text != nil, let value = NSNumberFormatter().numberFromString(display.text!) {
+                return value.doubleValue
             }
             
             return nil
@@ -132,6 +116,17 @@ class ViewController: UIViewController
         }
     }
     
+    private func updateDisplayWithResult(result: Double?) {
+        
+        if let value = result {
+            displayValue = value
+        } else {
+            displayValue = nil
+        }
+        
+        history.text = brain.description + " = "
+    }
+    
     @IBAction func clearCalculator() {
         // enter resets all the flags, so reuse here
         enter()
@@ -142,6 +137,33 @@ class ViewController: UIViewController
         //reset display text back to original
         display.text = "0"
         history.text = " "
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        //println("\(segue.identifier) called")
+    
+        var destinationController = segue.destinationViewController as? UIViewController
+        
+        //account for controllers embedded in a UINavigationController
+        if let navController = destinationController as? UINavigationController {
+            destinationController = navController.visibleViewController
+        }
+        
+        //ensure it's a graphViewController
+        if let graphViewController = destinationController as? GraphViewController {
+            
+            //ensure identifier is set
+            if let identifier = segue.identifier {
+                
+                ////set program variable on the graphViewController
+                switch identifier {
+                case "showGraph": graphViewController.program = brain.program
+                default: break
+                }
+            }
+        }
+    
     }
     
 }
