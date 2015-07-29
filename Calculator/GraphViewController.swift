@@ -39,11 +39,14 @@ class GraphViewController: UIViewController, GraphViewDataSource {
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
     //graphViewDataSource method
     func yValueForXValue(x: Double) -> Double? {
         brain.variableValues["M"] = x
         println(brain.variableValues)
         return brain.evaluate()
     }
-    
 }
